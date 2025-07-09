@@ -16,6 +16,7 @@ AI 기반 맞춤형 영어 독해 훈련 서비스 "Readapt AI"의 랜딩페이�
 - **TypeScript** - 타입 안정성
 - **TailwindCSS** - 스타일링
 - **Lucide React** - 아이콘
+- **Supabase** - 데이터베이스 및 백엔드 서비스
 
 ## 📁 프로젝트 구조
 
@@ -30,14 +31,18 @@ ai-english-study/
 │   │   ├── HowItWorks.tsx
 │   │   ├── ExamplePassage.tsx
 │   │   ├── CallToAction.tsx
-│   │   └── Footer.tsx
+│   │   ├── Footer.tsx
+│   │   └── PreorderModal.tsx
 │   ├── globals.css
 │   ├── layout.tsx
 │   └── page.tsx
+├── lib/
+│   └── supabase.ts
 ├── package.json
 ├── tailwind.config.js
 ├── tsconfig.json
-└── next.config.js
+├── next.config.js
+└── .env.local.example
 ```
 
 ## 🎯 랜딩페이지 구성
@@ -50,6 +55,25 @@ ai-english-study/
 6. **Call to Action**: 무료 체험 유도
 7. **Footer**: 서비스 정보 및 링크
 
+## 🚪 Fake Door 기능
+
+### 사전예약 시스템
+- **버튼 클릭 추적**: 모든 CTA 버튼 클릭 이벤트를 Supabase에 저장
+- **이메일 수집**: 사전예약 모달을 통한 이메일 주소 수집
+- **마케팅 동의**: 마케팅 수신 동의 여부 저장
+- **개인정보 보호**: 개인정보처리방침 동의 필수
+
+### 데이터 수집 항목
+1. **preorder_clicks 테이블**
+   - 서비스명 (service)
+   - 클릭 시간 (clicked_at)
+
+2. **preorders 테이블**
+   - 서비스명 (service)
+   - 이메일 주소 (email)
+   - 마케팅 수신 동의 (marketing_opt_in)
+   - 생성 시간 (created_at)
+
 ## 🚀 시작하기
 
 ### 1. 의존성 설치
@@ -58,13 +82,50 @@ ai-english-study/
 npm install
 ```
 
-### 2. 개발 서버 실행
+### 2. 환경 변수 설정
+
+`.env.local.example` 파일을 참고하여 `.env.local` 파일을 생성하고 Supabase 설정을 추가합니다:
+
+```bash
+cp .env.local.example .env.local
+```
+
+`.env.local` 파일에 다음 내용을 추가:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### 3. Supabase 테이블 생성
+
+Supabase 프로젝트에서 다음 SQL을 실행하여 테이블을 생성합니다:
+
+```sql
+-- 버튼 클릭 이벤트 저장용
+CREATE TABLE preorder_clicks (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  service TEXT NOT NULL,
+  clicked_at TIMESTAMP DEFAULT now()
+);
+
+-- 이메일 + 마케팅 수신 동의 저장용
+CREATE TABLE preorders (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  service TEXT NOT NULL,
+  email TEXT NOT NULL,
+  marketing_opt_in BOOLEAN DEFAULT false,
+  created_at TIMESTAMP DEFAULT now()
+);
+```
+
+### 4. 개발 서버 실행
 
 ```bash
 npm run dev
 ```
 
-### 3. 브라우저에서 확인
+### 5. 브라우저에서 확인
 
 http://localhost:3000 에서 확인할 수 있습니다.
 

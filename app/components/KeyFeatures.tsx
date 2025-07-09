@@ -1,6 +1,18 @@
+'use client'
+
 import { Bot, TrendingUp, BookOpen, Clock, Target, Zap } from 'lucide-react'
+import { useState } from 'react'
+import PreorderModal from './PreorderModal'
+import { savePreorderClick } from '../../lib/supabase'
 
 export default function KeyFeatures() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handlePreorderClick = async () => {
+    // 버튼 클릭 이벤트 저장
+    await savePreorderClick('readapt-ai')
+    setIsModalOpen(true)
+  }
   const features = [
     {
       icon: Bot,
@@ -75,11 +87,20 @@ export default function KeyFeatures() {
           <p className="text-primary-100 mb-6 max-w-2xl mx-auto">
             신용카드 없이도 7일간 모든 프리미엄 기능을 자유롭게 사용할 수 있습니다.
           </p>
-          <button className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+          <button 
+            onClick={handlePreorderClick}
+            className="bg-white text-primary-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+          >
             무료 체험 시작하기
           </button>
         </div>
       </div>
+      
+      <PreorderModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        service="readapt-ai" 
+      />
     </section>
   )
 } 

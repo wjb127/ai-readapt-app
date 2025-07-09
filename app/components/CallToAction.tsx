@@ -1,6 +1,18 @@
+'use client'
+
 import { ArrowRight, CheckCircle } from 'lucide-react'
+import { useState } from 'react'
+import PreorderModal from './PreorderModal'
+import { savePreorderClick } from '../../lib/supabase'
 
 export default function CallToAction() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handlePreorderClick = async () => {
+    // 버튼 클릭 이벤트 저장
+    await savePreorderClick('readapt-ai')
+    setIsModalOpen(true)
+  }
   return (
     <section id="cta" className="py-20 bg-gradient-to-br from-primary-600 to-secondary-600">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,7 +32,10 @@ export default function CallToAction() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <button className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-lg text-lg font-bold hover:from-yellow-500 hover:to-orange-600 transition-all transform hover:scale-105 flex items-center gap-2 shadow-2xl animate-pulse">
+            <button 
+              onClick={handlePreorderClick}
+              className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-8 py-4 rounded-lg text-lg font-bold hover:from-yellow-500 hover:to-orange-600 transition-all transform hover:scale-105 flex items-center gap-2 shadow-2xl animate-pulse"
+            >
               🚀 베타 테스터 신청하기 (무료)
               <ArrowRight size={20} />
             </button>
@@ -67,6 +82,12 @@ export default function CallToAction() {
           </div>
         </div>
       </div>
+      
+      <PreorderModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        service="readapt-ai" 
+      />
     </section>
   )
 } 

@@ -1,6 +1,18 @@
+'use client'
+
 import { ArrowRight, BookOpen, Brain, Target } from 'lucide-react'
+import { useState } from 'react'
+import PreorderModal from './PreorderModal'
+import { savePreorderClick } from '../../lib/supabase'
 
 export default function Hero() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const handlePreorderClick = async () => {
+    // 버튼 클릭 이벤트 저장
+    await savePreorderClick('readapt-ai')
+    setIsModalOpen(true)
+  }
   return (
     <section className="pt-20 pb-16 bg-gradient-to-br from-primary-50 to-secondary-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,7 +29,10 @@ export default function Hero() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <button className="bg-gradient-to-r from-red-500 to-primary-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-red-600 hover:to-primary-700 transition-all transform hover:scale-105 flex items-center gap-2 shadow-lg">
+            <button 
+              onClick={handlePreorderClick}
+              className="bg-gradient-to-r from-red-500 to-primary-600 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:from-red-600 hover:to-primary-700 transition-all transform hover:scale-105 flex items-center gap-2 shadow-lg"
+            >
               🎯 내 맞춤 처방전 받기 (무료)
               <ArrowRight size={20} />
             </button>
@@ -62,6 +77,12 @@ export default function Hero() {
           </div>
         </div>
       </div>
+      
+      <PreorderModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        service="readapt-ai" 
+      />
     </section>
   )
 } 
