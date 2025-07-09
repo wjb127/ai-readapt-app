@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle, Star } from 'lucide-react'
+import { ArrowRight, CheckCircle } from 'lucide-react'
 
 export default function CallToAction() {
   return (
@@ -42,32 +42,21 @@ export default function CallToAction() {
           </div>
 
           <div className="bg-white/10 backdrop-blur-sm rounded-xl p-8 max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div>
-                <div className="text-3xl font-bold text-white mb-2">10,000+</div>
-                <div className="text-primary-200">활성 사용자</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-white mb-2">4.8/5</div>
-                <div className="text-primary-200 flex items-center justify-center gap-1">
-                  평균 만족도
-                  <div className="flex">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="text-yellow-400" size={16} fill="currentColor" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-white mb-2">95%</div>
-                <div className="text-primary-200">학습 지속률</div>
-              </div>
+            <div className="text-center">
+              <h3 className="text-2xl font-bold text-white mb-4">
+                출시 준비 중인 혁신적인 AI 학습 서비스
+              </h3>
+              <p className="text-primary-100 text-lg">
+                베타 테스터로 참여하여 가장 먼저 Readapt AI의 강력한 기능을 경험해보세요.
+                <br />
+                여러분의 피드백이 더 나은 서비스를 만드는 데 도움이 됩니다.
+              </p>
             </div>
           </div>
 
           <div className="mt-12 text-center">
             <p className="text-primary-200 text-sm">
-              이미 수천 명의 학습자가 Readapt AI와 함께 영어 실력을 향상시키고 있습니다.
+              곧 출시될 Readapt AI와 함께 영어 독해 실력 향상의 새로운 경험을 준비하세요.
             </p>
           </div>
         </div>
